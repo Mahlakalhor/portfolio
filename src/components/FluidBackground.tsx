@@ -1,125 +1,74 @@
-"use client";
+// "use client";
 
-import * as THREE from "three";
-import { Canvas, useFrame, useThree, extend } from "@react-three/fiber";
-import { shaderMaterial } from "@react-three/drei";
-import { useMemo, useRef } from "react";
+// import { useEffect, useRef } from "react";
+// import WebGLFluid from "webgl-fluid";
 
-const vertexShader = `
-  varying vec2 vUv;
-  void main() {
-    vUv = uv;
-    gl_Position = vec4(position, 1.0);
-  }
-`;
+// export default function FluidBackgroundMasked() {
+//   const canvasRef = useRef<HTMLCanvasElement | null>(null);
+//   const wrapperRef = useRef<HTMLDivElement | null>(null);
 
-const fragmentShader = `
-  precision highp float;
-  varying vec2 vUv;
+//   useEffect(() => {
+//     const canvas = canvasRef.current;
+//     const wrapper = wrapperRef.current;
+//     if (!canvas || !wrapper) return;
 
-  uniform float uTime;
-  uniform vec2 uMouse;
-  uniform vec2 uRes;
+//     // راه‌اندازی افکت
+//     const instance = WebGLFluid(canvas, {
+//       TRIGGER: "pointermove",
+//       IMMEDIATE: true,
+//       AUTO: false,
 
-  float hash(vec2 p){
-    return fract(sin(dot(p, vec2(127.1,311.7))) * 43758.5453123);
-  }
+//       SIM_RESOLUTION: 128,
+//       DYE_RESOLUTION: 1024,
 
-  float noise(vec2 p){
-    vec2 i = floor(p);
-    vec2 f = fract(p);
-    float a = hash(i);
-    float b = hash(i + vec2(1.0, 0.0));
-    float c = hash(i + vec2(0.0, 1.0));
-    float d = hash(i + vec2(1.0, 1.0));
-    vec2 u = f*f*(3.0-2.0*f);
-    return mix(a,b,u.x) + (c-a)*u.y*(1.0-u.x) + (d-b)*u.x*u.y;
-  }
+//       // دیرتر محو شدن
+//       DENSITY_DISSIPATION: 1.0,
+//       VELOCITY_DISSIPATION: 1.2,
 
-  void main() {
-    vec2 uv = vUv;
+//       // حس آب‌رنگی قوی‌تر
+//       PRESSURE: 0.9,
+//       CURL: 22,
 
-    float d = distance(uv, uMouse);
-    float t = uTime * 0.6;
+//       // رد موس بزرگ‌تر + قوی‌تر
+//       SPLAT_RADIUS: 0.45,
+//       SPLAT_FORCE: 11000,
 
-    float n = noise(uv * 4.0 + t);
-    float waves = sin((uv.x + uv.y) * 10.0 + t * 2.0) * 0.08;
+//       SHADING: true,
+//       COLORFUL: true,
+//       TRANSPARENT: true,
+//     });
 
-    float influence = smoothstep(0.45, 0.0, d);
+//     const onMove = (e: PointerEvent) => {
+//       const rect = wrapper.getBoundingClientRect();
+//       const x = ((e.clientX - rect.left) / rect.width) * 100;
+//       const y = ((e.clientY - rect.top) / rect.height) * 100;
 
-    vec2 warped = uv;
-    warped += vec2(waves, -waves) * (0.35 + n) * influence;
+//       wrapper.style.setProperty("--mx", `${x}%`);
+//       wrapper.style.setProperty("--my", `${y}%`);
+//     };
 
-    float n2 = noise(warped * 6.0 - t);
+//     wrapper.addEventListener("pointermove", onMove, { passive: true });
 
-    vec3 c1 = vec3(0.15, 0.55, 0.95);
-    vec3 c2 = vec3(0.35, 0.95, 0.70);
-    vec3 c3 = vec3(0.75, 0.45, 0.95);
+//     return () => {
+//       wrapper.removeEventListener("pointermove", onMove);
+//       // بعضی ورژن‌ها destroy دارن، بعضی‌ها ندارن:
+//       instance?.destroy?.();
+//     };
+//   }, []);
 
-    vec3 col = mix(c1, c2, n2);
-    col = mix(col, c3, smoothstep(0.25, 0.9, noise(warped * 3.0 + t)));
-
-    col += influence * 0.25;
-
-    gl_FragColor = vec4(col, 1.0);
-  }
-`;
-
-const FluidMat = shaderMaterial(
-  {
-    uTime: 0,
-    uMouse: new THREE.Vector2(0.5, 0.5),
-    uRes: new THREE.Vector2(1, 1),
-  },
-  vertexShader,
-  fragmentShader
-);
-
-extend({ FluidMat });
-
-declare global {
-  namespace JSX {
-    interface IntrinsicElements {
-      fluidMat: any;
-    }
-  }
-}
-
-function Plane() {
-  const matRef = useRef<any>(null);
-  const { size } = useThree();
-  const res = useMemo(() => new THREE.Vector2(size.width, size.height), [size]);
-
-  useFrame((state) => {
-    if (!matRef.current) return;
-
-    matRef.current.uTime = state.clock.getElapsedTime();
-
-    const mx = state.mouse.x * 0.5 + 0.5;
-    const my = state.mouse.y * 0.5 + 0.5;
-    matRef.current.uMouse.set(mx, my);
-
-    matRef.current.uRes.copy(res);
-  });
-
-  return (
-    <mesh>
-      <planeGeometry args={[2, 2]} />
-      {/* <fluidMat ref={matRef} /> */}
-    </mesh>
-  );
-}
-
-export default function FluidBackground() {
-  return (
-    <div className="fixed inset-0 -z-10">
-      <Canvas
-        dpr={[1, 2]}
-        gl={{ antialias: true, alpha: true }}
-        camera={{ position: [0, 0, 1] }}
-      >
-        <Plane />
-      </Canvas>
-    </div>
-  );
-}
+//   return (
+//     <div
+//       ref={wrapperRef}
+//       className="fixed inset-0 -z-10 pointer-events-auto"
+//       style={{
+//         // دایره بزرگ‌تر = trail بیشتر دیده میشه
+//         WebkitMaskImage:
+//           "radial-gradient(circle 260px at var(--mx, 50%) var(--my, 50%), rgba(0,0,0,1) 0%, rgba(0,0,0,0) 72%)",
+//         maskImage:
+//           "radial-gradient(circle 260px at var(--mx, 50%) var(--my, 50%), rgba(0,0,0,1) 0%, rgba(0,0,0,0) 72%)",
+//       }}
+//     >
+//       <canvas ref={canvasRef} className="w-full h-full" />
+//     </div>
+//   );
+// }
