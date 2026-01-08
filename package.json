@@ -9,7 +9,6 @@
     "lint": "eslint"
   },
   "dependencies": {
-    "@react-three/fiber": "^9.5.0",
     "axios": "^1.13.2",
     "motion": "^12.23.26",
     "next": "16.1.1",

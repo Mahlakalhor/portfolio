@@ -1,3 +1,5 @@
+import { BottomNav } from "@/components/BottomNav";
+
 export default function Home() {
   return (
     <>
@@ -7,6 +9,7 @@ export default function Home() {
           <span className="font-bold text-6xl">Front-End Developer</span>
         </div>
       </section>
+      <BottomNav/>
     </>
   );
 }

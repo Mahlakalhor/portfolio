@@ -1,4 +1,4 @@
-import { BottomNav } from "@/components/BottomNav";
+import { QuestionBottom } from "@/components/QuestionBottom";
 
 export default function SiteLayout({
   children,
@@ -8,8 +8,7 @@ export default function SiteLayout({
   return (
     <div className="min-h-screen flex flex-col">
       <main className="flex-1">{children}</main>
-
-      <BottomNav />
+      <QuestionBottom/>
     </div>
   );
 }
