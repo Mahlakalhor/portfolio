@@ -1,7 +1,7 @@
-import { SkillsPage } from "./SkillsPage";
+import SkillsPage from "./SkillsPage";
 
 const page = () => {
-  return <SkillsPage />;
+  return <SkillsPage/>;
 };
 
 export default page;
