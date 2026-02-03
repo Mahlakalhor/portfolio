@@ -32,4 +32,3 @@ export default function SkillsChat() {
   );
 }
 // chatshell ro dynamici kon k roe har button skills y me zad message taghir kone 
-bad toe har 
