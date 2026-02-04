@@ -8,11 +8,15 @@ export const siteData = {
       "I enjoy turning complex ideas into simple, elegant interfaces. I care about UX, details, and performance.",
   },
 
-  skills: {
-    frontend: ["HTML", "CSS", "JavaScript", "React", "Next.js", "Tailwind"],
-    tools: ["Git", "GitHub", "VS Code", "Figma"],
-    learning: ["Framer Motion", "PWA", "Advanced Next.js"],
-  },
+  // skills: {
+  //   languages: ["HTML", "CSS", "JavaScript", "TypeScript"],
+  //   frameworks: ["React.js", "Next.js"],
+  //   state: ["Redux", "Zustand"],
+  //   styling: ["Tailwind", "Sass"],
+  //   libs: ["React Query", "Framer Motion"],
+  //   tools: ["Git"],
+  //   soft: ["Problem-solving", "Debugging"],
+  // },
 
   projects: [
     {
