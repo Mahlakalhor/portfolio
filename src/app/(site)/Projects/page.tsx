@@ -1,9 +1,7 @@
-import { ProjectPage } from './ProjectPage'
+import ProjectPage from "./ProjectPage";
 
 const page = () => {
-  return (
-  <ProjectPage/>
-  )
-}
+  return <ProjectPage />;
+};
 
-export default page
+export default page;

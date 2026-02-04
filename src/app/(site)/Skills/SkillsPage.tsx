@@ -6,7 +6,7 @@ import { motion } from "framer-motion";
 
 const skills = {
   Core: ["HTML", "CSS", "JavaScript", "TypeScript"],
-  React: ["React", "Next.js", "Router", "Query"],
+  React: ["React", "Next.js", "React Router", "React Query"],
   State: ["Redux", "Zustand"],
   UI: ["Tailwind", "Sass", "Framer", "Swiper"],
   Tools: ["Hook Form", "i18n", "ApexCharts", "Git"],
@@ -16,28 +16,28 @@ const skills = {
 export default function SkillsPage() {
   return (
     <ChatShell message="What are your skills? Give me a list of your soft and hard skills.">
-      <div className="p-40 flex items-center justify-center px-4">
+      <div className="min-h-[calc(100vh-140px)] px-4 py-8 flex items-center">
         <motion.div
-          className="w-full max-w-5xl space-y-6 sm:space-y-8"
-          initial={{ opacity: 0, y: 16 }}
+          className="mx-auto w-full max-w-5xl space-y-6"
+          initial={{ opacity: 0, y: 14 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1.2, ease: "easeOut" }}
+          transition={{ duration: 0.9, ease: "easeOut" }}
         >
-          <h1 className="text-2xl sm:text-4xl font-bold text-start">
+          <h1 className="text-2xl sm:text-4xl font-bold text-center sm:text-left">
             Skills & Expertise
           </h1>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 sm:gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6 ">
             {Object.entries(skills).map(([title, items], idx) => (
               <motion.section
                 key={title}
-                className="space-y-2 sm:space-y-3"
-                initial={{ opacity: 0.9, y: 12 }}
+                className=" p-4 sm:p-5 space-y-3"
+                initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{
-                  duration: 0.6,
+                  duration: 0.55,
                   ease: "easeOut",
-                  delay: idx * 0.08,
+                  delay: idx * 0.06,
                 }}
               >
                 <div className="flex items-center gap-2 justify-center sm:justify-start">
@@ -47,11 +47,11 @@ export default function SkillsPage() {
                   </h3>
                 </div>
 
-                <div className="flex flex-wrap gap-1.5 sm:gap-2 justify-center sm:justify-start">
+                <div className="flex flex-wrap gap-2 justify-center sm:justify-start">
                   {items.map((i) => (
                     <span
                       key={i}
-                      className="rounded-lg bg-black px-2 py-1 text-[11px] sm:text-sm text-white whitespace-nowrap"
+                      className="rounded-lg bg-black px-2.5 py-1 text-[11px] sm:text-sm text-white"
                     >
                       {i}
                     </span>
