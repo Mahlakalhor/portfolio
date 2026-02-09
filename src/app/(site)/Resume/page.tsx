@@ -1,9 +1,7 @@
-import { ResumePage } from "./ResumePage"
+import ResumePage from "./ResumePage";
 
 const page = () => {
-  return (
-  <ResumePage/>
-  )
-}
+  return <ResumePage />;
+};
 
-export default page
+export default page;

@@ -86,8 +86,8 @@ export default function ProjectsPage() {
         {/* slider */}
         <div className="relative mt-8 sm:mt-10">
           {/* fades (left/right) */}
-          <div className="pointer-events-none absolute left-0 top-0 z-10 h-full w-10 sm:w-14 bg-gradient-to-r from-white via-white/70 to-transparent" />
-          <div className="pointer-events-none absolute right-0 top-0 z-10 h-full w-10 sm:w-14 bg-gradient-to-l from-white via-white/70 to-transparent" />
+          <div className="pointer-events-none absolute left-0 top-0 z-10 h-full w-10 sm:w-14 bg-linear-to-r from-white via-white/70 to-transparent" />
+          <div className="pointer-events-none absolute right-0 top-0 z-10 h-full w-10 sm:w-14 bg-linear-to-l from-white via-white/70 to-transparent" />
 
           <div
             ref={trackRef}
@@ -148,7 +148,7 @@ function ProjectCard({ p, i }: { p: Project; i: number }) {
     <motion.button
       type="button"
       className="
-        relative flex-shrink-0
+        relative shrink-0
         h-72 w-52
         sm:h-80 sm:w-56
         overflow-hidden rounded-3xl
@@ -170,7 +170,7 @@ function ProjectCard({ p, i }: { p: Project; i: number }) {
       />
 
       {/* overlay like fastfolio */}
-      <div className="absolute inset-0 bg-gradient-to-b from-black/65 via-black/10 to-black/5" />
+      <div className="absolute inset-0 bg-linear-to-b from-black/65 via-black/10 to-black/5" />
 
       <div className="relative z-10 p-5 sm:p-6 text-left">
         <p className="text-xs sm:text-sm text-white/90">{p.category}</p>

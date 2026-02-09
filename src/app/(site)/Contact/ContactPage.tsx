@@ -7,7 +7,7 @@ export const ContactPage = () => {
           <h2 className="text-2xl sm:text-3xl font-semibold text-foreground">
             Contact Me
           </h2>
-          <p className="mt-1 text-sm text-muted-foreground">Mala Kalhor</p>
+          <p className="mt-1 text-sm text-muted-foreground">Mahla Kalhor</p>
         </div>
 
         {/* Info */}
