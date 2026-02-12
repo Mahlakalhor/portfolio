@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useRef, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
+import ChatShell from "@/components/ChatShell";
 
 type Project = {
   title: string;
@@ -17,8 +18,8 @@ const projects: Project[] = [
   { category: "E-commerce", title: "Shop", image: "/projects/5.png" },
 ];
 
-const CARD_W = 224; // w-56
-const GAP = 24; // نزدیک‌تر به fastfolio (gap-6)
+const CARD_W = 224;
+const GAP = 24;
 
 export default function ProjectsPage() {
   const trackRef = useRef<HTMLDivElement>(null);
@@ -56,90 +57,95 @@ export default function ProjectsPage() {
     el.scrollBy({ left: dir === "left" ? -step : step, behavior: "smooth" });
   };
 
+  const [index, setIndex] = useState(0);
+
+  const maxIndex = Math.max(0, projects.length - 3); // چون 3 تا نمایش می‌دی
+  const prev = () => setIndex((v) => Math.max(0, v - 1));
+  const next = () => setIndex((v) => Math.min(maxIndex, v + 1));
+
+  const canLeft = index > 0;
+  const canRight = index < maxIndex;
+
   return (
-    <div className="min-h-[calc(100vh-140px)] px-4 py-10 sm:py-14">
-      <motion.div
-        className="mx-auto w-full max-w-5xl"
-        initial={{ opacity: 0, y: 14 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.9, ease: "easeOut" }}
-      >
-        {/* top avatar like fastfolio */}
-        <div className="flex justify-center">
-          <div className="h-10 w-10 rounded-2xl overflow-hidden shadow-sm bg-neutral-100">
-            {/* جای عکس خودت */}
-            <img
-              src="/avatar.png"
-              alt="Avatar"
-              className="h-full w-full object-cover"
-            />
-          </div>
-        </div>
-
-        {/* title centered */}
-        <div className="mt-6 text-center">
-          <h1 className="text-2xl sm:text-4xl font-bold text-neutral-900">
-            My Projects
-          </h1>
-        </div>
-
-        {/* slider */}
-        <div className="relative mt-8 sm:mt-10">
-          {/* fades (left/right) */}
-          <div className="pointer-events-none absolute left-0 top-0 z-10 h-full w-10 sm:w-14 bg-linear-to-r from-white via-white/70 to-transparent" />
-          <div className="pointer-events-none absolute right-0 top-0 z-10 h-full w-10 sm:w-14 bg-linear-to-l from-white via-white/70 to-transparent" />
-
-          <div
-            ref={trackRef}
-            className="
-              flex gap-6
-              overflow-x-auto scroll-smooth
-              [scrollbar-width:none] [&::-webkit-scrollbar]:hidden
-              justify-start
-              sm:justify-center
-              px-1
-              pb-2
-              snap-x snap-mandatory
-            "
-          >
-            {projects.map((p, idx) => (
-              <ProjectCard key={p.title + idx} p={p} i={idx} />
-            ))}
+    <ChatShell message="What are your projects? What are you working on right now?">
+      <div className="min-h-[calc(100vh-140px)] px-4 py-10 sm:py-14">
+        <motion.div
+          className="mx-auto w-full max-w-5xl"
+          initial={{ opacity: 0, y: 14 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.9, ease: "easeOut" }}
+        >
+          {/* top avatar */}
+          <div className="flex justify-center">
+            <div className="h-10 w-10 overflow-hidden rounded-2xl bg-neutral-100 shadow-sm">
+              <img
+                src="/avatar.png"
+                alt="Avatar"
+                className="h-full w-full object-cover"
+              />
+            </div>
           </div>
 
-          {/* arrows bottom-right (like fastfolio) */}
-          <div className="mt-4 flex justify-end gap-2">
-            <ArrowBtn
-              dir="left"
-              disabled={!canLeft}
-              onClick={() => scrollBy("left")}
-            />
-            <ArrowBtn
-              dir="right"
-              disabled={!canRight}
-              onClick={() => scrollBy("right")}
-            />
+          {/* title */}
+          <div className="mt-6 text-center">
+            <h1 className="text-2xl font-bold text-neutral-900 sm:text-4xl">
+              My Projects
+            </h1>
           </div>
-        </div>
 
-        {/* assistant text bubble */}
-        <AnimatePresence>
-          <motion.div
-            className="mx-auto mt-8 max-w-2xl text-sm sm:text-base text-neutral-700 leading-relaxed"
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, ease: "easeOut", delay: 0.1 }}
-          >
-            You can check out all my projects above! If you want to dive deeper
-            into any specific one or have questions about them, just let me
-            know! What interests you the most?
-          </motion.div>
-        </AnimatePresence>
+          {/* slider */}
+          <div className="relative mt-8 sm:mt-10">
+            {/* fades */}
+            <div className="pointer-events-none absolute left-0 top-0 z-10 h-full w-14 bg-linear-to-r from-white via-white/70 to-transparent" />
+            <div className="pointer-events-none absolute right-0 top-0 z-10 h-full w-14 bg-linear-to-l from-white via-white/70 to-transparent" />
 
-        {/* space for your fixed QuestionBottom */}
-        <div className="h-28 sm:h-32" />
-      </motion.div>
-    </div>
+            {/* viewport */}
+            <div className="overflow-hidden">
+              <motion.div
+                className="flex gap-6"
+                animate={{ x: `calc(-${index} * (33.333% + 16px))` }}
+                transition={{ type: "spring", stiffness: 140, damping: 18 }}
+              >
+                {projects.map((p, idx) => (
+                  <div
+                    key={p.title + idx}
+                    className="
+            w-[calc((100%-48px)/3)] shrink-0
+            max-sm:w-full
+          "
+                  >
+                    <ProjectCard p={p} i={idx} />
+                  </div>
+                ))}
+              </motion.div>
+            </div>
+
+            {/* arrows */}
+            <div className="mt-4 flex justify-end gap-2">
+              <ArrowBtn dir="left" disabled={!canLeft} onClick={prev} />
+              <ArrowBtn dir="right" disabled={!canRight} onClick={next} />
+            </div>
+          </div>
+
+          {/* assistant text */}
+          <AnimatePresence>
+            <motion.div
+              className="mx-auto mt-8 max-w-2xl text-sm leading-relaxed text-neutral-700 sm:text-base"
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, ease: "easeOut", delay: 0.1 }}
+            >
+              You can check out all my projects above! If you want to dive
+              deeper into any specific one or have questions about them, just
+              let me know! What interests you the most?
+            </motion.div>
+          </AnimatePresence>
+
+          {/* space for fixed QuestionBottom */}
+          <div className="h-28 sm:h-32" />
+        </motion.div>
+      </div>
+    </ChatShell>
   );
 }
 
@@ -149,8 +155,7 @@ function ProjectCard({ p, i }: { p: Project; i: number }) {
       type="button"
       className="
         relative shrink-0
-        h-72 w-52
-        sm:h-80 sm:w-56
+        h-72 w-52 sm:h-80 sm:w-56
         overflow-hidden rounded-3xl
         bg-neutral-100
         shadow-sm hover:shadow-xl transition-shadow
@@ -169,12 +174,11 @@ function ProjectCard({ p, i }: { p: Project; i: number }) {
         loading="lazy"
       />
 
-      {/* overlay like fastfolio */}
       <div className="absolute inset-0 bg-linear-to-b from-black/65 via-black/10 to-black/5" />
 
-      <div className="relative z-10 p-5 sm:p-6 text-left">
-        <p className="text-xs sm:text-sm text-white/90">{p.category}</p>
-        <h3 className="mt-1 text-xl sm:text-2xl font-semibold text-white leading-tight">
+      <div className="relative z-10 p-5 text-left sm:p-6">
+        <p className="text-xs text-white/90 sm:text-sm">{p.category}</p>
+        <h3 className="mt-1 text-xl font-semibold leading-tight text-white sm:text-2xl">
           {p.title}
         </h3>
       </div>
