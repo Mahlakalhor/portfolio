@@ -23,8 +23,8 @@ const GAP = 24;
 
 export default function ProjectsPage() {
   const trackRef = useRef<HTMLDivElement>(null);
-  const [canLeft, setCanLeft] = useState(false);
-  const [canRight, setCanRight] = useState(true);
+  // const [canLeft, setCanLeft] = useState(false);
+  // const [canRight, setCanRight] = useState(true);
 
   const step = useMemo(() => CARD_W + GAP, []);
 
@@ -32,8 +32,8 @@ export default function ProjectsPage() {
     const el = trackRef.current;
     if (!el) return;
     const max = el.scrollWidth - el.clientWidth;
-    setCanLeft(el.scrollLeft > 4);
-    setCanRight(el.scrollLeft < max - 4);
+    // setCanLeft(el.scrollLeft > 4);
+    // setCanRight(el.scrollLeft < max - 4);
   };
 
   useEffect(() => {
