@@ -75,17 +75,6 @@ export default function ProjectsPage() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.9, ease: "easeOut" }}
         >
-          {/* top avatar */}
-          <div className="flex justify-center">
-            <div className="h-10 w-10 overflow-hidden rounded-2xl bg-neutral-100 shadow-sm">
-              <img
-                src="/avatar.png"
-                alt="Avatar"
-                className="h-full w-full object-cover"
-              />
-            </div>
-          </div>
-
           {/* title */}
           <div className="mt-6 text-center">
             <h1 className="text-2xl font-bold text-neutral-900 sm:text-4xl">
